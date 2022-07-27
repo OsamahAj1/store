@@ -1,0 +1,88 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    product name
+{% endblock %}
+
+{% block main %}
+
+<div class="container mb-5">
+
+    <div class="row mt-5 gap-5">
+        <div class="col-4">
+            <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+              <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
+              </div>
+              <div class="carousel-inner">
+                <div class="carousel-item active" data-bs-interval="10000">
+                  <img src="{{image[0].image}}" class="d-block w-100" alt="...">
+                  <div class="carousel-caption d-none d-md-block">
+                  </div>
+                </div>
+                <div class="carousel-item" data-bs-interval="2000">
+                  <img src="{{image[1].image}}" class="d-block w-100" alt="...">
+                  <div class="carousel-caption d-none d-md-block">
+                  </div>
+                </div>
+                <div class="carousel-item">
+                  <img src="{{image[2].image}}" class="d-block w-100" alt="...">
+                  <div class="carousel-caption d-none d-md-block">
+                  </div>
+                </div>
+              </div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+            </div>
+        </div>
+        {% for j in data %}
+        <div class="col">
+            <div class="fs-1 text-start ms-5 ps-5">{{ j.name }}</div>
+            <div class="fs-3 text-start ms-5 ps-5">{{ j.price | usd}}</div>
+            <div class="fs-4 text-start ms-5 ps-5">({{ c }}) {{ rate }}/10</div>
+            <div class="text-break fs-4 text-start ms-5 ps-5 mb-5">{{ j.des }}</div>
+            <form action="/cart" method="post" class="text-start ms-5 ps-5">
+                <input type="hidden" name="id" value="{{ j.id }}">
+                <input autocomplete="off" class="sel2 rounded-pill text-center" min="1" name="n" placeholder="number" type="number" required value="1">
+                <button class="btn btn-primary rounded-pill" type="submit">Add to cart</button>
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<h2 class="mb-4">{{ c }} Comments</h2>
+{% for e in data %}
+<form action="/comments" method="post" class="text-start ms-5 ps-5 mb-5">
+    <input autocomplete="off" class="form-control mb-2 rounded-pill sel4" type="text" placeholder="Comment" name="comment">
+    <input autocomplete="off" class="sel3 rounded-pill text-center form-control mb-2" max="10" name="rate" placeholder="rate/10" type="number">
+    <input type="hidden" name="id" value="{{ e.id }}">
+    <button class="btn btn-primary rounded-pill" type="submit">Comment</button>
+</form>
+{% endfor %}
+
+{% for c in com %}
+<section class="text-start ms-5 ps-5">
+    <h2>{{ c.username }}</h2>
+    <h5>{{ c.date }}</h5>
+    <h5>Rate: {{ c.rate }}</h5>
+    <p class="fs-4">{{ c.comment }}</p>
+    {% if session["user_id"] == 1 %}
+    <form action="/page" method="post">
+        <input type="hidden" value="{{ c.comment }}" name="comment">
+        <input type="hidden" value="{{ c.username }}" name="name">
+        <button type="submit" class="btn btn-danger rounded-pill">Remove</button>
+    </form>
+    {% endif %}
+</section>
+{% endfor %}
+
+{% endblock %}

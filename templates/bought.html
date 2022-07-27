@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    bought
+{% endblock %}
+
+{% block main %}
+
+<p class="fs-3">cash: {{ cash | usd }}</p>
+
+<div class="container">
+
+    <!-- for -->
+    {% for i in bought %}
+    <div class="row mb-5">
+        <div class="col-2">
+            <form action="/page">
+                <input type="hidden" name="id" value="{{ i.products_id }}">
+                <input type="image" src="{{ i.image }}" class="img-fluid imgp">
+            </form>
+        </div>
+        <div class="col mt-5">
+            {{ i.name }}
+        </div>
+        <div class="col mt-5">
+            {{ i.price | float | usd}}
+        </div>
+        <div class="col mt-5">
+            {{ i.n }}
+        </div>
+        <div class="col mt-5">
+            {{ i.total | float | usd}}
+        </div>
+        <div class="col mt-5">
+            {{ i.date }}
+        </div>
+    </div>
+    {% endfor %}
+    <!-- end for -->
+</div>
+
+{% endblock %}

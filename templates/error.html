@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    error
+{% endblock %}
+
+{% block main %}
+    <!-- https://memegen.link/ -->
+    <img alt="{{ top }}" class="border img-fluid" src="http://memegen.link/custom/{{ top | urlencode }}/{{ bottom | urlencode }}.jpg?alt=https://www.elegantthemes.com/blog/wp-content/uploads/2020/08/000-http-error-codes.png" title="{{ top }}">
+{% endblock %}

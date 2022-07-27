@@ -1,0 +1,74 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block main %}
+
+<div class="container">
+    <div class="row ms-5">
+        <div class="col ms-5">
+        <form action="/" method="post" class="ms-5">
+            <select class="sel rounded-pill" name="type">
+                <option value="filter">filter</option>
+                <option value="All">All</option>
+                {% for j in typess %}
+                    <option value="{{ j.type }}">{{ j.type }}</option>
+                {% endfor %}
+            </select>
+            <select class="sel rounded-pill" name="price">
+                <option value="price">price</option>
+                <option value="Bigger-Smaller">Bigger-Smaller</option>
+                <option value="Smaller-Bigger">Smaller-Bigger</option>
+            </select>
+            <button type="submit" class="btn btn-primary rounded-pill">Submit</button>
+        </form>
+        <form action="/" method="get" class="mb-5">
+                <button type="submit" class="btn btn-danger rounded-pill" name="r" value="r">Remove All Filters</button>
+        </form>
+
+        </div>
+        <div class="col me-5 mb-3">
+            <a href="/cart">
+                <button type="button" class="btn btn-light position-relative rounded-pill">
+                  <img src="/static/cart.png" class="img1">
+                  <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    {{ i }}
+                  </span>
+                </button>
+            </a>
+            <p class="fs-4">cash: {{ cash | usd }}</p>
+            <form action="/cash" method="post">
+                <input autocomplete="off" class="sel rounded-pill text-center" min="1" name="cash" placeholder="Add cash" type="number">
+                <input type="hidden" name="a" value="1">
+                <button type="submit" class="btn btn-success rounded-pill">Add</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row row-cols-4">
+        <!--loop -->
+        {% for i in products %}
+        <div class="col mx-auto border border-3 pt-3 pb-2">
+                <form action="/page">
+                    <input type="hidden" name="id" value="{{ i.id }}">
+                    <input type="image" src="{{ i.image }}" class="img-fluid imgp">
+                </form>
+                <h4 class="text-start">{{ i["name"] }}</h4>
+                <h5 class="text-start">{{ i["price"] | usd }}</h5>
+            <form action="/cart" method="post">
+                <input type="hidden" name="id" value="{{ i.id }}">
+                <input autocomplete="off" class="sel2 rounded-pill text-center" min="1" name="n" placeholder="number" type="number" required value="1">
+                <button class="btn btn-primary rounded-pill" type="submit">Add to cart</button>
+            </form>
+        </div>
+        <!-- endloop -->
+        {% endfor %}
+    </div>
+</div>
+
+
+{% endblock %}

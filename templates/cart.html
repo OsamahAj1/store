@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    cart
+{% endblock %}
+
+{% block main %}
+
+<a href="/cart">
+    <button type="button" class="btn btn-light position-relative rounded-pill">
+        <img src="/static/cart.png" class="img1">
+        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+            {{ i }}
+        </span>
+    </button>
+</a>
+<p class="fs-3">cash: {{ cash | usd }}</p>
+<form action="/cash" method="post">
+    <input autocomplete="off" class="sel rounded-pill text-center" min="1" name="cash" placeholder="Add cash" type="number">
+    <button type="submit" class="btn btn-success rounded-pill">Add</button>
+</form>
+
+<div class="container">
+
+    <!-- for -->
+    {% for i in items %}
+    <div class="row mb-5">
+        <div class="col-2">
+            <img src="{{ i.image }}" class="img-fluid imgp">
+        </div>
+        <div class="col mt-5">
+            {{ i.name }}
+        </div>
+        <div class="col mt-5">
+            {{ i.price | usd}}
+        </div>
+        <div class="col mt-5">
+            <form action="/update">
+                <input type="hidden" name="id" value="{{ i.products_id }}">
+                <input autocomplete="off" class="sel2 rounded-pill text-center" min="1" name="n" placeholder="number" type="number" value="{{ i.n }}">
+                <button class="btn btn-primary rounded-pill" type="submit">Update</button>
+            </form>
+        </div>
+        <div class="col mt-5" id="total">
+            {{ i.total | usd}}
+        </div>
+        <div class="col mt-5">
+            <form action="/update" method="post">
+                <input type="hidden" name="id" value="{{ i.products_id }}">
+                <button type="submit" class="btn btn-danger rounded-pill">Remove</button>
+            </form>
+        </div>
+    </div>
+    <!-- end for -->
+    {% endfor %}
+    <div class="row fs-3">
+        <p class="text-center">{{ sum_cart[0].sum | usd}}</p>
+    </div>
+    <div class="row">
+        <form action="/bought" method="post" class="d-grid gap-2">
+            <button class="btn btn-primary btn-lg rounded-pill" type="submit">Buy</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

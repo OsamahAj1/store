@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    admin
+{% endblock %}
+
+{% block main %}
+
+<h1>Add products to store</h1>
+
+<form action="/admin" method="post" enctype="multipart/form-data">
+    <div class="text-start ms-5 ps-5 mt-5 fs-3">
+
+        <p>Name of product:</p>
+        <input autocomplete="off" class="form-control rounded-pill sel4 mb-5" type="text" placeholder="Name" name="name">
+
+        <p>Price of product:</p>
+        <input autocomplete="off" class="form-control rounded-pill sel mb-5" type="text" placeholder="Price" name="price">
+
+        <p>Description of product:</p>
+        <input autocomplete="off" class="form-control rounded-pill sel5 mb-5" placeholder="Description" name="des">
+
+        <p>Choose type already is store:</p>
+        <select class="sel rounded-pill fs-5 mb-5" name="in_type">
+            <option disabled="" selected="" value="type">type</option>
+            {% for i in typess %}
+            <option value="{{ i.type }}">{{ i.type }}</option>
+            {% endfor %}
+        </select>
+
+        <p class="text-danger mb-5">OR</p>
+
+        <p>Add new type:</p>
+        <input autocomplete="off" class="form-control rounded-pill sel mb-5" type="text" placeholder="type" name="new_type">
+
+        <p>Choose <span class="text-danger h3">( 1 ) width: 800 x height: 600</span> image for display image:</p>
+        <input autocomplete="off" class="form-control rounded-pill w-auto fs-5 mb-5" type="file" placeholder="type" name="image1">
+
+        <p>Choose <span class="text-danger h3">( 3 ) width: 800 x height: 600</span> image for display image: <span class="fs-5 text-info">note: choose the first pic then hold shift and choose the rest.</span></p>
+        <input autocomplete="off" class="form-control rounded-pill w-auto fs-5 mb-5" type="file" placeholder="type" name="image3" multiple>
+
+        <div class="row">
+            <button class="btn btn-primary btn-lg rounded-pill" type="submit">Add</button>
+        </div>
+    </div>
+</form>
+
+{% endblock %}
